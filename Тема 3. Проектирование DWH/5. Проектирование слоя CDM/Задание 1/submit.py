@@ -9,7 +9,7 @@ def submit(rlz_file, t_code):
         user_code = u_file.read()
 
     r = requests.post(
-        'http://localhost:3002',
+        'http://docker-vm:3052',
         json={
             "code": user_code,
             "test": t_code
