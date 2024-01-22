@@ -133,4 +133,5 @@ dmypy.json
 
 
 #Pycharm
-.idea/
+.idea/*
+.idea
