@@ -2,6 +2,11 @@ from airflow.decorators import dag, task
 from sqlalchemy_utils.types.enriched_datetime.pendulum_date import pendulum
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
+import sys
+from pathlib import Path
+
+# Append the new path
+sys.path.append(str(Path(__file__).parent))
 from rank_loader import rank_loader
 @dag(
     schedule_interval='0/15 * * * *',
