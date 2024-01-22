@@ -8,6 +8,8 @@ from pathlib import Path
 # Append the new path
 sys.path.append(str(Path(__file__).parent))
 from rank_loader import rank_loader
+
+
 @dag(
     schedule_interval='0/15 * * * *',
     start_date=pendulum.datetime(2022, 5, 5, tz="UTC"),
@@ -16,7 +18,6 @@ from rank_loader import rank_loader
     is_paused_upon_creation=False
 )
 def sprint5_4_5_2():
-
     @task
     def rank_loader_task():
         src_pg_hook = PostgresHook("PG_ORIGIN_BONUS_SYSTEM_CONNECTION")
@@ -27,6 +28,8 @@ def sprint5_4_5_2():
 
         rank_loader(src_pg_conn, trg_pg_conn, 1)
 
-    rank_loader_task()
+    rlt = rank_loader_task()
+    rlt
 
-sprint5_4_5_2()
+
+sprint5_4_5_2_dag = sprint5_4_5_2()
