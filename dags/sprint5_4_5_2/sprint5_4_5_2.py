@@ -16,12 +16,17 @@ from rank_loader import rank_loader
     is_paused_upon_creation=False
 )
 def sprint5_4_5_2():
-    src_pg_hook = PostgresHook("PG_ORIGIN_BONUS_SYSTEM_CONNECTION")
-    trg_pg_hook = PostgresHook("PG_WAREHOUSE_CONNECTION")
 
-    src_pg_conn = src_pg_hook.get_conn()
-    trg_pg_conn = trg_pg_hook.get_conn()
+    @task
+    def rank_loader_task():
+        src_pg_hook = PostgresHook("PG_ORIGIN_BONUS_SYSTEM_CONNECTION")
+        trg_pg_hook = PostgresHook("PG_WAREHOUSE_CONNECTION")
 
-    rank_loader(src_pg_conn, trg_pg_conn, 1)
+        src_pg_conn = src_pg_hook.get_conn()
+        trg_pg_conn = trg_pg_hook.get_conn()
 
+        rank_loader(src_pg_conn, trg_pg_conn, 1)
 
+    rank_loader_task()
+
+sprint5_4_5_2()
