@@ -27,6 +27,8 @@ def sprint5_4_5_2():
         trg_pg_conn = trg_pg_hook.get_conn()
 
         rank_loader(src_pg_conn, trg_pg_conn, 1)
+        src_pg_conn.close()
+        trg_pg_conn.close()
 
     rlt = rank_loader_task()
     rlt

@@ -19,6 +19,7 @@ def rank_loader(src_pg_conn, trg_pg_conn, limit: int):
                     params = dict(zip(column_names, row))
                     trg_cursor.execute(insert_ranks_query, params)
                 offset = offset + limit
+            trg_pg_conn.commit()
 
 
 if __name__ == "__main__":
@@ -43,3 +44,5 @@ if __name__ == "__main__":
         port=config.get("PG_LOCAL_PORT")
     )
     rank_loader(src_pg_conn, trg_pg_conn, 1)
+    src_pg_conn.close()
+    trg_pg_conn.close()
