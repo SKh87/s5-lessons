@@ -1,6 +1,3 @@
-import psycopg2
-from dotenv import dotenv_values
-
 def rank_loader(src_pg_conn, trg_pg_conn, limit: int):
     offset: int = 0
     with open("src_ranks.sql", "r") as file:
@@ -24,6 +21,9 @@ def rank_loader(src_pg_conn, trg_pg_conn, limit: int):
 
 
 if __name__ == "__main__":
+    import psycopg2
+    from dotenv import dotenv_values
+
     config = dotenv_values("../../.env")
     print(config)
 
