@@ -1,8 +1,9 @@
+from pathlib import Path
 def rank_loader(src_pg_conn, trg_pg_conn, limit: int):
     offset: int = 0
-    with open("src_ranks.sql", "r") as file:
+    with open(str(Path(__file__).parent) + "src_ranks.sql", "r") as file:
         select_ranks_query = file.read()
-    with open("trg_ranks.sql", "r") as file:
+    with open(str(Path(__file__).parent) + "trg_ranks.sql", "r") as file:
         insert_ranks_query = file.read()
 
     with src_pg_conn.cursor() as src_cursor:
