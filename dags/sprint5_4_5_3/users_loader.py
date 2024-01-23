@@ -8,7 +8,7 @@ from pydantic import BaseModel
 from examples.stg import StgEtlSettingsRepository, EtlSetting
 from lib import PgConnect
 from lib.dict_util import json2str
-
+from psycopg import Connection
 
 class UsersObject(BaseModel):
     id: int
@@ -42,8 +42,8 @@ class UserTarget:
     def __init__(self, trg_conn: PgConnect):
         self._db = trg_conn
 
-    def save_user(self, user: UsersObject) -> None:
-        with self._db.client().cursor() as cur:
+    def save_user(self, conn: Connection, user: UsersObject) -> None:
+        with conn.cursor() as cur:
             cur.execute(
                 """
                     insert into stg.bonussystem_users(id, order_user_id) 
@@ -88,7 +88,7 @@ class UsersLoader:
             for user in load_queue:
                 last_loaded = max(last_loaded, user.id)
                 self.log.info(user)
-                self.trg.save_user(user)
+                self.trg.save_user(conn, user)
 
             wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = last_loaded
             wf_setting_json = json2str(wf_setting.workflow_settings)
