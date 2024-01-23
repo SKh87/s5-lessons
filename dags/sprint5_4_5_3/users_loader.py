@@ -5,9 +5,9 @@ from typing import List
 from psycopg.rows import class_row
 from pydantic import BaseModel
 
-from dags.examples.stg import StgEtlSettingsRepository, EtlSetting
-from dags.lib import PgConnect
-from dags.lib.dict_util import json2str
+from examples.stg import StgEtlSettingsRepository, EtlSetting
+from lib import PgConnect
+from lib.dict_util import json2str
 
 
 class UsersObject(BaseModel):

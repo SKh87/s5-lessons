@@ -5,7 +5,7 @@ from airflow.decorators import dag, task
 from examples.stg.bonus_system_ranks_dag.ranks_loader import RankLoader
 from lib import ConnectionBuilder
 
-from dags.sprint5_4_5_3.users_loader import UsersLoader
+from sprint5_4_5_3.users_loader import UsersLoader
 
 log = logging.getLogger(__name__)
 
@@ -40,10 +40,12 @@ def sprint5_4_5_3():
         rest_loader =  UsersLoader(origin_pg_connect, dwh_pg_connect, log)
         rest_loader.load_users()
 
+    users_task = load_users()
 
     # Далее задаем последовательность выполнения тасков.
     # Т.к. таск один, просто обозначим его здесь.
     ranks_dict  # type: ignore
+    users_task
 
 
 stg_bonus_system_ranks_dag = sprint5_4_5_3()
