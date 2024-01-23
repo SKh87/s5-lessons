@@ -87,6 +87,7 @@ class UsersLoader:
             # Сохраняем объекты в базу dwh.
             for user in load_queue:
                 last_loaded = max(last_loaded, user.id)
+                self.log.info(user)
                 self.trg.save_user(user)
 
             wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = last_loaded
