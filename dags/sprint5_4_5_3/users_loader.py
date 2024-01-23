@@ -65,7 +65,7 @@ class UsersLoader:
         self.settings_repository = StgEtlSettingsRepository()
 
     def load_users(self):
-        with self._src_conn.connection() as conn:
+        with self._trg_conn.connection() as conn:
             wf_setting = self.settings_repository.get_setting(conn, self.WF_KEY)
             if wf_setting is None:
                 wf_setting = EtlSetting(id=0, workflow_key=self.WF_KEY, workflow_settings={self.LAST_LOADED_ID_KEY: -1})
