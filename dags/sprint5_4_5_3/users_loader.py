@@ -60,7 +60,7 @@ class UserTarget:
 
 class UsersLoader:
     WF_KEY = "users_source_to_stg_workflow"
-    LAST_LOADED_ID_KEY = "last_user_id"
+    LAST_LOADED_ID_KEY = "id"
     BATCH_LIMIT = 10
 
     def __init__(self, src_conn: PgConnect, trg_conn: PgConnect, log: Logger):
