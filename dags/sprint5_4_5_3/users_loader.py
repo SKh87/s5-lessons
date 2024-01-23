@@ -21,17 +21,18 @@ class UserSource:
 
     def list_users(self, threshold_user_id: int, limit: int) -> List[UsersObject]:
         with self._db.client().cursor(row_factory=class_row(UsersObject)) as cur:
-            cur.execute("""
-                select id, order_user_id
-                from users
-                where id > %(threshold_user_id)s
-                order by id asc
-                limit %(limit)s 
-            """).format(
+            cur.execute(
+                """
+                    select id, order_user_id
+                    from users
+                    where id > %(threshold_user_id)s
+                    order by id asc
+                    limit %(limit)s
+                """,
                 {
                     "threshold_user_id": threshold_user_id,
                     "limit": limit
-                }
+                },
             )
             objects = cur.fetchall()
             return objects
@@ -43,12 +44,18 @@ class UserTarget:
 
     def save_user(self, user: UsersObject) -> None:
         with self._db.client().cursor() as cur:
-            cur.execute("""
-                insert into stg.bonussystem_users(id, order_user_id) 
-                values (%s, %s)
-                on conflict (id) do update 
-                    set order_user_id = excluded.order_user_id
-            """)
+            cur.execute(
+                """
+                    insert into stg.bonussystem_users(id, order_user_id) 
+                    values (%(id)s, %(order_user_id)s)
+                    on conflict (id) do update 
+                        set order_user_id = excluded.order_user_id
+                """,
+                {
+                    "id": user.user_id,
+                    "order_user_id": user.order_user_id
+                },
+            )
 
 
 class UsersLoader:
@@ -85,7 +92,6 @@ class UsersLoader:
             wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = last_loaded
             wf_setting_json = json2str(wf_setting.workflow_settings)
             self.settings_repository.save_setting(conn, self.WF_KEY, wf_setting_json)
-
 
 # if __name__ == "__main__":
 #     log = Logger(name="aaa")
