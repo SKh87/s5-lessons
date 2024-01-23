@@ -11,7 +11,7 @@ from lib.dict_util import json2str
 
 
 class UsersObject(BaseModel):
-    user_id: int
+    id: int
     order_user_id: str
 
 
@@ -52,7 +52,7 @@ class UserTarget:
                         set order_user_id = excluded.order_user_id
                 """,
                 {
-                    "id": user.user_id,
+                    "id": user.id,
                     "order_user_id": user.order_user_id
                 },
             )
