@@ -32,7 +32,7 @@ class DmUsersSource:
                     from stg.bonussystem_users bu
                              inner join stg.ordersystem_users ou on ou.object_id = bu.order_user_id
                     where bu.id > %(threshold)s
-                    order by id asc
+                    order by bu.id asc
                     limit %(limit)s
                 """,
                 {
