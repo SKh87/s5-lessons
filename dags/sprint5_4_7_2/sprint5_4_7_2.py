@@ -17,7 +17,7 @@ log = logging.getLogger(__name__)
     tags=['sprint5', 'stg'],  # Теги, используются для фильтрации в интерфейсе Airflow.
     is_paused_upon_creation=True  # Остановлен/запущен при появлении. Сразу запущен.
 )
-def sprint5_4_5_4():
+def sprint5_4_7_2():
     # Создаем подключение к базе dwh.
     dwh_pg_connect = ConnectionBuilder.pg_conn("PG_WAREHOUSE_CONNECTION")
 
