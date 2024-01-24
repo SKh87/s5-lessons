@@ -22,7 +22,7 @@ def sprint5_4_7_2():
     dwh_pg_connect = ConnectionBuilder.pg_conn("PG_WAREHOUSE_CONNECTION")
 
     # Создаем подключение к базе подсистемы бонусов.
-    origin_pg_connect = ConnectionBuilder.pg_conn("PG_ORIGIN_BONUS_SYSTEM_CONNECTION")
+    origin_pg_connect = ConnectionBuilder.pg_conn("PG_WAREHOUSE_CONNECTION")
 
 
     @task(task_id="users_load")
