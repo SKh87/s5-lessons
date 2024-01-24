@@ -13,6 +13,7 @@ from psycopg import Connection
 
 
 class DmUsersObject(BaseModel):
+    id: int
     user_id: str
     user_name: str
     user_login:str
@@ -25,7 +26,8 @@ class DmUsersSource:
         with self._db.client().cursor(row_factory=class_row(DmUsersObject)) as cur:
             cur.execute(
                 """
-                    select bu.order_user_id                  as user_id,
+                    select bu.id                             as id,
+                           bu.order_user_id                  as user_id,
                            ou.object_value::json ->> 'name'  as user_name,
                            ou.object_value::json ->> 'login' as user_login
                     from stg.bonussystem_users bu
