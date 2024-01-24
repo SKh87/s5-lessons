@@ -12,7 +12,7 @@ class OrderLoader:
     _LOG_THRESHOLD = 2
     _SESSION_LIMIT = 10000
 
-    WF_KEY = "ordersystem_origin_to_stg_workflow"
+    WF_KEY = "ordersystem_order_origin_to_stg_workflow"
     LAST_LOADED_TS_KEY = "last_loaded_ts"
     # Restaurant
     def __init__(self, collection_loader: OrderReader, pg_dest: PgConnect, pg_saver: PgSaverOrdersystemOrders, logger: Logger) -> None:
