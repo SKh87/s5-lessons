@@ -4,9 +4,8 @@ import pendulum
 from airflow.decorators import dag, task
 from lib import ConnectionBuilder
 
-from examples.stg.bonus_system_ranks_dag.ranks_loader import RankLoader
-from sprint5_4_7_2.users_loader import UsersLoader
-from sprint5_4_7_2.events_loader import EventsLoader
+
+from sprint5_4_7_2.dm_users_loader import DmUsersLoader
 
 log = logging.getLogger(__name__)
 
@@ -25,37 +24,16 @@ def sprint5_4_5_4():
     # Создаем подключение к базе подсистемы бонусов.
     origin_pg_connect = ConnectionBuilder.pg_conn("PG_ORIGIN_BONUS_SYSTEM_CONNECTION")
 
-    # Объявляем таск, который загружает данные.
-    @task(task_id="ranks_load")
-    def load_ranks():
-        # создаем экземпляр класса, в котором реализована логика.
-        rest_loader = RankLoader(origin_pg_connect, dwh_pg_connect, log)
-        rest_loader.load_ranks()  # Вызываем функцию, которая перельет данные.
 
-    # Инициализируем объявленные таски.
-    ranks_dict = load_ranks()
-
-    # Объявляем второй таск, который загружает данные по users
     @task(task_id="users_load")
-    def load_users():
-        rest_loader = UsersLoader(origin_pg_connect, dwh_pg_connect, log)
-        rest_loader.load_users()
+    def load_dm_users():
+        rest_loader = DmUsersLoader(origin_pg_connect, dwh_pg_connect, log)
+        rest_loader.load_dm_users()
 
-    users_task = load_users()
+    dm_users_task = load_dm_users()
 
     # Объявляем третий таск, который загружает данные outbox
-    @task(task_id="events_load")
-    def load_events():
-        rest_loader = EventsLoader(origin_pg_connect, dwh_pg_connect, log)
-        rest_loader.load_events()
-
-    events_task = load_events()
-
-    # Далее задаем последовательность выполнения тасков.
-    # Т.к. таск один, просто обозначим его здесь.
-    ranks_dict  # type: ignore
-    users_task
-    events_task
+    dm_users_task
 
 
 stg_bonus_system_ranks_dag = sprint5_4_7_2()
