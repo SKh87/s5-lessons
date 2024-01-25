@@ -25,7 +25,7 @@ def sprint5_4_7_3():
     origin_pg_connect = ConnectionBuilder.pg_conn("PG_WAREHOUSE_CONNECTION")
 
 
-    @task(task_id="users_load")
+    @task(task_id="restaurant_load")
     def load_dm_restaurant():
         rest_loader = DmRestaurantLoader(origin_pg_connect, dwh_pg_connect, log)
         rest_loader.load_dm_restaurant()
