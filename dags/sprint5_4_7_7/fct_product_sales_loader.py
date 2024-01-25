@@ -73,24 +73,26 @@ class FctProductTarget:
     def __init__(self, trg_conn: PgConnect):
         self._db = trg_conn
 
-    def save_fct_product_sales_loader(self, conn: Connection, dm_order: FctProductObject) -> None:
+    def save_fct_product_sales_loader(self, conn: Connection, fct_product_sale: FctProductObject) -> None:
         with conn.cursor() as cur:
             cur.execute(
                 """
-                    insert into dds.dm_orders (order_key,order_status,restaurant_id,timestamp_id,user_id)
-                    values (%(order_key)s,%(order_status)s,%(restaurant_id)s,%(timestamp_id)s,%(user_id)s)
+                    insert into dds.fct_product_sales (product_id, order_id, count, price, total_sum, bonus_payment, bonus_grant)
+                    values (%(product_id)s, %(order_id)s, %(count)s, %(price)s, %(total_sum)s, %(bonus_payment)s, %(bonus_grant)s)
                 """,
                 {
-                    "order_key": dm_order.order_key,
-                    "order_status": dm_order.order_status,
-                    "restaurant_id": dm_order.restaurant_id,
-                    "timestamp_id": dm_order.timestamp_id,
-                    "user_id": dm_order.user_id
+                    "product_id": fct_product_sale.product_id,
+                    "order_id": fct_product_sale.order_id,
+                    "count": fct_product_sale.count,
+                    "price": fct_product_sale.price,
+                    "total_sum": fct_product_sale.total_sum,
+                    "bonus_payment": fct_product_sale.bonus_payment,
+                    "bonus_grant": fct_product_sale.bonus_grant
                 },
             )
 
 class FctProductLoader:
-    WF_KEY = "dm_order_stg_to_dds_workflow"
+    WF_KEY = "fct_product_sales_stg_to_dds_workflow"
     LAST_LOADED_ID_KEY = "id"
     BATCH_LIMIT = 3000000
 
@@ -111,14 +113,14 @@ class FctProductLoader:
 
             last_loaded = wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY]
             load_queue = self.src.list_fct_product_sales_loader(last_loaded, self.BATCH_LIMIT)
-            self.log.info(f"Found {len(load_queue)} dm_order to load.")
+            self.log.info(f"Found {len(load_queue)} fct_product_sales to load.")
             if not load_queue:
                 self.log.info("Quitting.")
                 return
             # Сохраняем объекты в базу dwh.
-            for dm_order in load_queue:
-                last_loaded = max(last_loaded, dm_order.id)
-                self.trg.save_fct_product_sales_loader(conn, dm_order)
+            for fct_product_sale in load_queue:
+                last_loaded = max(last_loaded, fct_product_sale.id)
+                self.trg.save_fct_product_sales_loader(conn, fct_product_sale)
 
             wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = last_loaded
             wf_setting_json = json2str(wf_setting.workflow_settings)
