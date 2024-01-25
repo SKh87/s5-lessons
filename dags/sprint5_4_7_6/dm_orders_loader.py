@@ -14,12 +14,11 @@ from psycopg import Connection
 
 class DmOrderObject(BaseModel):
     id: int
+    order_key: str
+    order_status: str
     restaurant_id: int
-    product_id: str
-    product_name: str
-    product_price: float
-    active_from: datetime
-    active_to: datetime
+    timestamp_id: int
+    user_id: int
 
 
 class DmOrderSource:
