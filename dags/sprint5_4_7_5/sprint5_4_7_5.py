@@ -5,7 +5,7 @@ from airflow.decorators import dag, task
 from lib import ConnectionBuilder
 
 
-from sprint5_4_7_5.dm_products_loader import DmTimestampLoader
+from sprint5_4_7_5.dm_products_loader import DmProductLoader
 
 log = logging.getLogger(__name__)
 
