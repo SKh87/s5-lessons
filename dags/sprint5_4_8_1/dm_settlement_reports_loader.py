@@ -111,6 +111,7 @@ class DmSsettlementReportLoader:
             self.log.info(f"Loaded {wf_setting}")
 
             last_loaded = wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY]
+            last_loaded = datetime.fromisoformat(last_loaded)
             load_queue = self.src.list_dm_settlement_report(last_loaded, self.BATCH_LIMIT)
             self.log.info(f"Found {len(load_queue)} dm_settlement_report to load.")
             if not load_queue:
