@@ -13,7 +13,6 @@ from psycopg import Connection
 
 
 class DmSsettlementReportObject(BaseModel):
-    id: int
     restaurant_id: str
     restaurant_name: str
     settlement_date: date
