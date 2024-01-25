@@ -27,7 +27,7 @@ class FctProductSource:
     def __init__(self, src_conn: PgConnect):
         self._db = src_conn
 
-    def list_dm_order(self, threshold: int, limit: int) -> List[FctProductObject]:
+    def list_fct_product_sales_loader(self, threshold: int, limit: int) -> List[FctProductObject]:
         with self._db.client().cursor(row_factory=class_row(FctProductObject)) as cur:
             cur.execute(
                 """
@@ -73,7 +73,7 @@ class FctProductTarget:
     def __init__(self, trg_conn: PgConnect):
         self._db = trg_conn
 
-    def save_dm_order(self, conn: Connection, dm_order: FctProductObject) -> None:
+    def save_fct_product_sales_loader(self, conn: Connection, dm_order: FctProductObject) -> None:
         with conn.cursor() as cur:
             cur.execute(
                 """
@@ -102,7 +102,7 @@ class FctProductLoader:
         self.log = log
         self.settings_repository = StgEtlSettingsRepository()
 
-    def load_dm_order(self):
+    def fct_product_sales_loader(self):
         with self._trg_conn.connection() as conn:
             wf_setting = self.settings_repository.get_setting(conn, self.WF_KEY)
             if wf_setting is None:
@@ -110,7 +110,7 @@ class FctProductLoader:
             self.log.info(f"Loaded {wf_setting}")
 
             last_loaded = wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY]
-            load_queue = self.src.list_dm_order(last_loaded, self.BATCH_LIMIT)
+            load_queue = self.src.list_fct_product_sales_loader(last_loaded, self.BATCH_LIMIT)
             self.log.info(f"Found {len(load_queue)} dm_order to load.")
             if not load_queue:
                 self.log.info("Quitting.")
@@ -118,7 +118,7 @@ class FctProductLoader:
             # Сохраняем объекты в базу dwh.
             for dm_order in load_queue:
                 last_loaded = max(last_loaded, dm_order.id)
-                self.trg.save_dm_order(conn, dm_order)
+                self.trg.save_fct_product_sales_loader(conn, dm_order)
 
             wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = last_loaded
             wf_setting_json = json2str(wf_setting.workflow_settings)
