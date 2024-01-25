@@ -32,7 +32,7 @@ class DmRestaurantSource:
                         osr.id,
                         osr.object_id as restaurant_id,
                         osr.object_value::json->'name' as restaurant_name,
-                        osr.update_ts as activate_from,
+                        osr.update_ts as active_from,
                         '2099-12-31 00:00:00.000'::timestamp as active_to
                     from stg.ordersystem_restaurants osr
                     where osr.id > %(threshold)s

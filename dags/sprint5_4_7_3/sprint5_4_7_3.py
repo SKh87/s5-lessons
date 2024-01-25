@@ -30,10 +30,10 @@ def sprint5_4_7_3():
         rest_loader = DmRestaurantLoader(origin_pg_connect, dwh_pg_connect, log)
         rest_loader.load_dm_restaurant()
 
-    dm_users_task = load_dm_restaurant()
+    dm_restaurants_task = load_dm_restaurant()
 
     # Объявляем третий таск, который загружает данные outbox
-    dm_users_task
+    dm_restaurants_task
 
 
 stg_bonus_system_ranks_dag = sprint5_4_7_3()
