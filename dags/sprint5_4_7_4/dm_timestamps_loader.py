@@ -81,7 +81,7 @@ class DmTimestampTarget:
 class DmTimestampLoader:
     WF_KEY = "dm_timestamp_stg_to_dds_workflow"
     LAST_LOADED_ID_KEY = "id"
-    BATCH_LIMIT = 100
+    BATCH_LIMIT = 300
 
     def __init__(self, src_conn: PgConnect, trg_conn: PgConnect, log: Logger):
         self._src_conn = src_conn
