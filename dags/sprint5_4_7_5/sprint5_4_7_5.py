@@ -25,9 +25,9 @@ def sprint5_4_7_5():
     origin_pg_connect = ConnectionBuilder.pg_conn("PG_WAREHOUSE_CONNECTION")
 
 
-    @task(task_id="timestamp_load")
+    @task(task_id="product_load")
     def load_dm_product():
-        rest_loader = DmTimestampLoader(origin_pg_connect, dwh_pg_connect, log)
+        rest_loader = DmProductLoader(origin_pg_connect, dwh_pg_connect, log)
         rest_loader.load_dm_product()
 
     dm_products_task = load_dm_product()
