@@ -55,8 +55,8 @@ class DmSsettlementReportSource:
                                         on dr.id = dp.restaurant_id
                                             and dr.id = o.restaurant_id
                     where o.order_status = 'CLOSED'
-                    group by dr.restaurant_id, dr.restaurant_name, dt.date
-                    and dt.date> %(threshold)s
+                        and dt.date> %(threshold)s
+                    group by dr.restaurant_id, dr.restaurant_name, dt.date                    
                     order by dt.date
                     limit %(limit)s
                 """,
