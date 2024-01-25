@@ -64,7 +64,7 @@ class RankDestRepository:
 class RankLoader:
     WF_KEY = "example_ranks_origin_to_stg_workflow"
     LAST_LOADED_ID_KEY = "last_loaded_id"
-    BATCH_LIMIT = 1  # Рангов мало, но мы хотим продемонстрировать инкрементальную загрузку рангов.
+    BATCH_LIMIT = 300000  # Рангов мало, но мы хотим продемонстрировать инкрементальную загрузку рангов.
 
     def __init__(self, pg_origin: PgConnect, pg_dest: PgConnect, log: Logger) -> None:
         self.pg_dest = pg_dest
