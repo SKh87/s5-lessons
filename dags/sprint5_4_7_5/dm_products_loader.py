@@ -75,7 +75,7 @@ class DmProductTarget:
 class DmProductLoader:
     WF_KEY = "dm_product_stg_to_dds_workflow"
     LAST_LOADED_ID_KEY = "id"
-    BATCH_LIMIT = 150
+    BATCH_LIMIT = 3000000
 
     def __init__(self, src_conn: PgConnect, trg_conn: PgConnect, log: Logger):
         self._src_conn = src_conn

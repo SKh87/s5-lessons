@@ -10,7 +10,7 @@ from lib.dict_util import json2str
 
 class UserLoader:
     _LOG_THRESHOLD = 2
-    _SESSION_LIMIT = 10000
+    _SESSION_LIMIT = 3000000
 
     WF_KEY = "ordersystem_user_origin_to_stg_workflow"
     LAST_LOADED_TS_KEY = "last_loaded_ts"

@@ -75,7 +75,7 @@ class EventTarget:
 class EventsLoader:
     WF_KEY = "event_source_to_stg_workflow"
     LAST_LOADED_ID_KEY = "id"
-    BATCH_LIMIT = 3000
+    BATCH_LIMIT = 3000000
 
     def __init__(self, src_conn: PgConnect, trg_conn: PgConnect, log: Logger):
         self._src_conn = src_conn
