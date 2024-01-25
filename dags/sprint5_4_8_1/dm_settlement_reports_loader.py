@@ -75,7 +75,7 @@ class DmSsettlementReportTarget:
             cur.execute(
                 """
                     insert into cdm.dm_settlement_report (restaurant_id, restaurant_name, settlement_date, orders_count, orders_total_sum, orders_bonus_payment_sum, orders_bonus_granted_sum, order_processing_fee, restaurant_reward_sum)
-                    values ($(restaurant_id)s, $(restaurant_name)s, $(settlement_date)s, $(orders_count)s, $(orders_total_sum)s, $(orders_bonus_payment_sum)s, $(orders_bonus_granted_sum)s, $(order_processing_fee)s, $(restaurant_reward_sum)s)
+                    values (%(restaurant_id)s, %(restaurant_name)s, %(settlement_date)s, %(orders_count)s, %(orders_total_sum)s, %(orders_bonus_payment_sum)s, %(orders_bonus_granted_sum)s, %(order_processing_fee)s, %(restaurant_reward_sum)s)
                 """,
                 {
                     "restaurant_id": dm_settlement_report.restaurant_id,
