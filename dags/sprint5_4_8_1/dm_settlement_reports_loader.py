@@ -122,6 +122,6 @@ class DmSsettlementReportLoader:
                 last_loaded = max(last_loaded, dm_settlement_report.settlement_date)
                 self.trg.save_dm_settlement_report(conn, dm_settlement_report)
 
-            wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = datetime(last_loaded)
+            wf_setting.workflow_settings[self.LAST_LOADED_ID_KEY] = datetime.combine(last_loaded, datetime.min.time())
             wf_setting_json = json2str(wf_setting.workflow_settings)
             self.settings_repository.save_setting(conn, self.WF_KEY, wf_setting_json)
