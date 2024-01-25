@@ -102,7 +102,7 @@ class FctProductLoader:
         self.log = log
         self.settings_repository = StgEtlSettingsRepository()
 
-    def fct_product_sales_loader(self):
+    def load_fct_product_sale(self):
         with self._trg_conn.connection() as conn:
             wf_setting = self.settings_repository.get_setting(conn, self.WF_KEY)
             if wf_setting is None:
