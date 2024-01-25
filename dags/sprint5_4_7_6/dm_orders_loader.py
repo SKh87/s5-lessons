@@ -75,7 +75,7 @@ class DmOrderTarget:
 class DmOrderLoader:
     WF_KEY = "dm_order_stg_to_dds_workflow"
     LAST_LOADED_ID_KEY = "id"
-    BATCH_LIMIT = 150
+    BATCH_LIMIT = 1000
 
     def __init__(self, src_conn: PgConnect, trg_conn: PgConnect, log: Logger):
         self._src_conn = src_conn
